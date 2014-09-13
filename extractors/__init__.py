@@ -1,3 +1,3 @@
-from . import *
+import date_and_time_extractor
 
-extractors = [DateAndTimeExtractor]
+extractors = [date_and_time_extractor.DateAndTimeExtractor]
