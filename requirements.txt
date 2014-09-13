@@ -1,5 +1,7 @@
 boto==2.32.1
+mechanize==0.2.5
 parsedatetime==1.4
 pymongo==2.7.2
 pytz==2014.7
+requests==2.4.1
 wsgiref==0.1.2

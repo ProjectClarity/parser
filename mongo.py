@@ -9,6 +9,7 @@ db = client[os.environ.get('MONGO_URI').split('/')[-1]]
 users = db.users
 raw_data = db.raw_data
 processed_data = db.processed_data
+misc = db.misc
 
 class DuplicateException(Exception):
     pass
