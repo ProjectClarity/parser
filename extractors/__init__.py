@@ -1,3 +1,3 @@
 from . import *
 
-extractors = []
+extractors = [DateAndTimeExtractor]
