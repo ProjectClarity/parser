@@ -3,7 +3,7 @@ import parsedatetime as pdt
 
 class DateAndTimeExtractor(BaseExtractor):
     @staticmethod
-    def extract(message):
+    def extract(message, context):
       body = message.get('payload').get('body')
       cal = pdt.Calendar()
       start_date = cal.parse(message.get_header('Date'))[0]
