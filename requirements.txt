@@ -1,3 +1,4 @@
 boto==2.32.1
+parsedatetime==1.4
 pymongo==2.7.2
 wsgiref==0.1.2
