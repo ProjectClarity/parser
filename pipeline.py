@@ -1,6 +1,6 @@
 import json, urllib2, os
 from mongo import get_raw_email, store_processed_data, DuplicateException
-from extractors import extractors, NotAnEventException
+from extractors import extractors, NotAnEventException, NoSuchEmailException
 from message import Message
 
 def get_events_from_email(raw_email):
@@ -33,7 +33,7 @@ def process_notification(notification):
             except (urllib2.HTTPError, urllib2.URLError) as e:
                 print 'Error POSTing: {}'.format(e)
             print 'Processed {} events'.format(len(events))
-    except (DuplicateException, NotAnEventException):
+    except (DuplicateException, NotAnEventException, NoSuchEmailException):
         pass
     except:
         raise
