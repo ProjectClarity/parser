@@ -1,5 +1,5 @@
-from mongo import get_raw_email, store_processed_data
-from extractors import extractors
+from mongo import get_raw_email, store_processed_data, DuplicateException
+from extractors import extractors, NotAnEventException
 from message import Message
 
 def process_email(raw_email):
@@ -18,7 +18,7 @@ def process_notification(notification):
             processed_email = process_email(raw_email)
             store_processed_data(processed_email)
         return processed_email
-    except DuplicateException:
+    except (DuplicateException, NotAnEventException):
         pass
     except:
         raise
