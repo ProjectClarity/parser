@@ -9,7 +9,6 @@ MAX_NOTIFICATION_BATCH_SIZE=1
 if __name__ == '__main__':
     while True:
         newest_notifications = get_notifications(MAX_NOTIFICATION_BATCH_SIZE)
-        print newest_notifications
         if len(newest_notifications) > 0:
             process_notifications(newest_notifications, process_notification)
         time.sleep(20)

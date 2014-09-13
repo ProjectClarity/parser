@@ -8,7 +8,7 @@ def process_email(raw_email):
     for extractor in extractors:
         results.update(extractor.extract(raw_email))
     return results
-    
+
 def process_notification(notification):
     object_id = notification['object_id']
     try:
@@ -17,4 +17,4 @@ def process_notification(notification):
             store_processed_data(processed_email)
         return processed_email
     except:
-        pass
+        raise

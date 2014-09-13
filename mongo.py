@@ -12,13 +12,13 @@ processed_data = db.processed_data
 
 @contextmanager
 def get_raw_email(object_id):
-    raw_email = raw_data.find_one({'_id':ObjectId(objectId)})
+    raw_email = raw_data.find_one({'_id':ObjectId(object_id)})
     if processed_data.find_one({'email_id':raw_email['id']}):
         raise Exception('dupe')
     del raw_email['_id']
     try:
         yield raw_email
-        raw_data.remove({'_id':ObjectId(objectId)})
+        raw_data.remove({'_id':ObjectId(object_id)})
     except Exception as e:
         raise e
 
