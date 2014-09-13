@@ -1,5 +1,7 @@
 from base_extractor import BaseExtractor
 import parsedatetime as pdt
+from email.utils import parsedate
+import time
 
 class DateAndTimeExtractor(BaseExtractor):
     @staticmethod
@@ -9,7 +11,7 @@ class DateAndTimeExtractor(BaseExtractor):
       date_header = message.get_header('Date')
       if not date_header:
         DateAndTimeExtractor.throw()
-      start_date = cal.parse(date_header)[0]
+      start_date = time.mktime(parsedate(date_header))
       dates = cal.nlp(body, sourceTime=start_date)
       if dates and not dates[0][-1].isdigit():
         return {'datetime': dates[0]}, {}
