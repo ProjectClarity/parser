@@ -3,12 +3,15 @@ import parsedatetime as pdt
 
 class DateAndTimeExtractor(BaseExtractor):
     @staticmethod
-    def extract(message):
+    def extract(message, context):
       body = message.get('payload').get('body')
       cal = pdt.Calendar()
-      start_date = cal.parse(message.get_header('Date'))[0]
+      date_header = message.get_header('Date')
+      if not date_header:
+        DateAndTimeExtractor.throw()
+      start_date = cal.parse(date_header)[0]
       dates = cal.nlp(body, sourceTime=start_date)
-      if dates:
+      if dates and not dates[0][-1].isdigit():
         return {'datetime': dates[0]}, {}
       else:
         DateAndTimeExtractor.throw()
