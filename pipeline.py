@@ -27,7 +27,10 @@ def process_notification(notification):
     try:
         with get_raw_email(object_id) as raw_email:
             events = get_events_from_email(raw_email)
-            post_events([str(store_processed_data(event)) for event in events])
+            try:
+                post_events([str(store_processed_data(event)) for event in events])
+            except urllib2.HTTPError as e:
+                print 'Error POSTing: {}'.format(e)
             print 'Processed {} events'.format(len(events))
     except (DuplicateException, NotAnEventException):
         pass
