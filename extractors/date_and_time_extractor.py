@@ -12,7 +12,7 @@ class DateAndTimeExtractor(BaseExtractor):
         DateAndTimeExtractor.throw()
       start_date = parsedate(date_header)
       dates = cal.nlp(body, sourceTime=start_date)
-      if dates and not dates[0][-1].isdigit():
+      if dates and not dates[0][-1].isdigit() and not dates[0].startswith('--') and any([x in dates[0] for x in [' ', '-', '/']]):
         return {'datetime': dates[0]}, {}
       else:
         DateAndTimeExtractor.throw()
