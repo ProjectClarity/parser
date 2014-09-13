@@ -4,7 +4,7 @@ from email.utils import parsedate
 
 def validate_date(date):
   date_text = date[-1]
-  if len(date_text) < 5 and not any([x in date_text for x in ['-', '/']]):
+  if len(date_text) < 5 and not any([x in date_text for x in ['-', '/', 'am', 'pm']]):
     return False
   return not date_text.isdigit() and not date_text.startswith('--') and any([x in date_text for x in [' ', '-', '/']])
 
