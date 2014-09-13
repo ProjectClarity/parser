@@ -3,7 +3,10 @@ import parsedatetime as pdt
 from email.utils import parsedate
 
 def validate_date(date):
-  return not date[-1].isdigit() and not date[-1].startswith('--') and any([x in date[-1] for x in [' ', '-', '/']])
+  date_text = date[-1]
+  if len(date_text) < 5 and not any([x in date_text for x in ['-', '/']]):
+    return False
+  return not date_text.isdigit() and not date_text.startswith('--') and any([x in date_text for x in [' ', '-', '/']])
 
 class DateAndTimeExtractor(BaseExtractor):
     @staticmethod
