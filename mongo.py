@@ -1,3 +1,4 @@
+import os
 from contextlib import contextmanager
 
 from pymongo import MongoClient
@@ -13,8 +14,7 @@ processed_data = db.processed_data
 def get_raw_email(object_id):
     raw_email = raw_data.find_one({'_id':ObjectId(objectId)})
     if processed_data.find_one({'email_id':raw_email['id']}):
-        yield None
-        return
+        raise Exception('dupe')
     del raw_email['_id']
     try:
         yield raw_email
