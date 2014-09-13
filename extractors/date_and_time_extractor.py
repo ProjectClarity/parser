@@ -11,7 +11,7 @@ class DateAndTimeExtractor(BaseExtractor):
         DateAndTimeExtractor.throw()
       start_date = cal.parse(date_header)[0]
       dates = cal.nlp(body, sourceTime=start_date)
-      if dates and not dates[0].isdigit():
+      if dates and not dates[0][-1].isdigit():
         return {'datetime': dates[0]}, {}
       else:
         DateAndTimeExtractor.throw()
