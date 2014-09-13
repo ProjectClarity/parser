@@ -1,4 +1,4 @@
 def DateAndTimeExtractor(BaseExtractor):
     @staticmethod
-    def extract():
+    def extract(data):
       pass

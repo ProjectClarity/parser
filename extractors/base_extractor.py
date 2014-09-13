@@ -5,7 +5,7 @@ class BaseExtractor(object):
     """
 
     @staticmethod
-    def extract():
+    def extract(data):
         """
         Examine email content and metadata to extract information.
 
