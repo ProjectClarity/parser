@@ -1,4 +1,3 @@
-import os
 import time
 
 from sqs_helpers import get_notifications, process_notifications
