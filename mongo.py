@@ -21,8 +21,6 @@ def get_raw_email(object_id):
     del raw_email['_id']
     try:
         yield raw_email
-    except Exception as e:
-        raise e
     finally:
         raw_data.remove({'_id': ObjectId(object_id)})
 
