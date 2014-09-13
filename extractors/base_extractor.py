@@ -1,6 +1,7 @@
 class Extractor(object):
     """
-    Base class for email extractors. Subclass this class to make new extractors to extract new types of information. Each extractor should be responsible for extracting different pieces of information (no stable conflict resolution mechanism as of yet).
+    Base class for email extractors. Subclass this class to make new extractors to extract new types of information.
+    Each extractor should be responsible for extracting different pieces of information (no stable conflict resolution mechanism as of yet).
     """
 
     def extract():
