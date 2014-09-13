@@ -11,5 +11,5 @@ class DateAndTimeExtractor(BaseExtractor):
       if dates:
         return {'datetime': dates[0]}
       else:
-        return None
+        DateAndTimeExtractor.throw()
 
