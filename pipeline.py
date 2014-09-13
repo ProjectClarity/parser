@@ -1,4 +1,4 @@
-from mongo import get_raw_email, store_processed_data
+from mongo import get_raw_email, store_processed_data, DuplicateException
 from extractors import extractors
 
 def process_email(raw_email):
