@@ -3,7 +3,7 @@ import time
 from sqs_helpers import get_notifications, process_notifications
 from pipeline import process_notification
 
-MAX_NOTIFICATION_BATCH_SIZE=1
+MAX_NOTIFICATION_BATCH_SIZE = 10
 
 if __name__ == '__main__':
     while True:
