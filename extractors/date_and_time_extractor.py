@@ -9,7 +9,7 @@ class DateAndTimeExtractor(BaseExtractor):
       date_header = message.get_header('Date')
       if not date_header:
         DateAndTimeExtractor.throw()
-      start_date = cal.parse()[0]
+      start_date = cal.parse(date_header)[0]
       dates = cal.nlp(body, sourceTime=start_date)
       if dates:
         return {'datetime': dates[0]}, {}

@@ -1,6 +1,4 @@
-import json
-import urllib2
-
+import json, urllib2, os
 from mongo import get_raw_email, store_processed_data, DuplicateException
 from extractors import extractors, NotAnEventException
 from message import Message
@@ -20,7 +18,7 @@ def get_events_from_email(raw_email):
 
 def post_events(event_ids):
     payload = {'event_ids': event_ids}
-    req = urllib2.Request('http://pennappsx-web.herokuapp.com/events/create')
+    req = urllib2.Request('{}/events/create'.format(os.getenv('API_URL')))
     req.add_header('Content-Type', 'application/json')
     urllib2.urlopen(req, json.dumps(payload))
 
@@ -30,9 +28,10 @@ def process_notification(notification):
     try:
         with get_raw_email(object_id) as raw_email:
             events = get_events_from_email(raw_email)
+            event_ids = [str(store_processed_data(event)) for event in events]
             try:
-                post_events([str(store_processed_data(event)) for event in events])
-            except urllib2.HTTPError as e:
+                post_events(event_ids)
+            except (urllib2.HTTPError, urllib2.URLError) as e:
                 print 'Error POSTing: {}'.format(e)
             print 'Processed {} events'.format(len(events))
     except (DuplicateException, NotAnEventException):
