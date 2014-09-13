@@ -1,6 +1,6 @@
 import json, urllib2, os
-from mongo import get_raw_email, store_processed_data, DuplicateException
-from extractors import extractors, NotAnEventException, NoSuchEmailException
+from mongo import get_raw_email, store_processed_data, DuplicateException, NoSuchEmailException
+from extractors import extractors, NotAnEventException
 from message import Message
 
 def get_events_from_email(raw_email):
