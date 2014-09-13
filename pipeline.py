@@ -1,12 +1,14 @@
 from mongo import get_raw_email, store_processed_data
 from extractors import extractors
+from message import Message
 
 def process_email(raw_email):
+    message = Message(raw_email)
     results = {}
     results['email_id'] = raw_email['id']
     results['user_id'] = raw_email['userid']
     for extractor in extractors:
-        results.update(extractor.extract(raw_email))
+        results.update(extractor.extract(message))
     return results
 
 def process_notification(notification):
