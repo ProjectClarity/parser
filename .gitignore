@@ -1,9 +1,10 @@
 *.py[cod]
-creds.sh
 log/
 
 .env
 client_secrets.json
+creds.sh
+install.sh
 
 # C extensions
 *.so
