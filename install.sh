@@ -13,7 +13,7 @@ venv_create() {
         exit 0
     else
         echo "Creating venv"
-        virtualenv --no-site-packages venv
+        virtualenv2 --no-site-packages venv
         echo "Venv successfully created"
     fi
 }
@@ -29,4 +29,4 @@ done
 
 venv_create
 
-pip install -r requirements.txt
+pip2 install -r requirements.txt
