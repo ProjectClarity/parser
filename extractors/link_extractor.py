@@ -26,7 +26,7 @@ def get_last_redirect(link):
 
 class LinkExtractor(BaseExtractor):
   @staticmethod
-  def extract(message):
+  def extract(message, context):
    body = message.get('payload').get('body')
    matches = URL_REGEX.findall(body)
    links = [get_last_redirect(match[0]) for match in matches]
