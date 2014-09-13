@@ -22,7 +22,6 @@ def post_events(event_ids):
     req.add_header('Content-Type', 'application/json')
     urllib2.urlopen(req, json.dumps(payload))
 
-
 def process_notification(notification):
     object_id = notification['object_id']
     try:

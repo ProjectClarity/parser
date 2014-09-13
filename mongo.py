@@ -21,7 +21,7 @@ def get_raw_email(object_id):
     del raw_email['_id']
     try:
         yield raw_email
-        raw_data.remove({'_id':ObjectId(object_id)})
+        raw_data.remove({'_id': ObjectId(object_id)})
     except Exception as e:
         raise e
 
