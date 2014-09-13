@@ -7,4 +7,4 @@ class TitleExtractor(BaseExtractor):
     def extract(message):
        subject = message.get_header('Subject')
        unbracketed = re.sub(r'\[.*?\]', r'', subject)
-       return {'title': unbracketed}
+       return {'title': unbracketed}, {}

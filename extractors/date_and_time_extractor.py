@@ -9,7 +9,7 @@ class DateAndTimeExtractor(BaseExtractor):
       start_date = cal.parse(message.get_header('Date'))[0]
       dates = cal.nlp(body, sourceTime=start_date)
       if dates:
-        return {'datetime': dates[0]}
+        return {'datetime': dates[0]}, {}
       else:
         DateAndTimeExtractor.throw()
 

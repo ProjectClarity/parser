@@ -9,10 +9,13 @@ def get_events_from_email(raw_email):
     message = Message(raw_email)
     # Segmenting goes here
     results = {}
+    context = {}
     results['email_id'] = raw_email['id']
     results['user_id'] = raw_email['userid']
     for extractor in extractors:
-        results.update(extractor.extract(message))
+        new_results, new_context = extractor.extract(message, context)
+        results.update(new_results)
+        context.update(new_context)
     return [results]
 
 def post_events(event_ids):
