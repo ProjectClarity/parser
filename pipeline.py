@@ -16,5 +16,7 @@ def process_notification(notification):
             processed_email = process_email(raw_email)
             store_processed_data(processed_email)
         return processed_email
+    except DuplicateException:
+        pass
     except:
         raise
