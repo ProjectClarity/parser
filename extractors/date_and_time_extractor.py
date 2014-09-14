@@ -5,7 +5,7 @@ import re
 
 def validate_date(date, context):
   date_text = date[-1]
-  if any([date_text in x for x in context['links']]):
+  if any([date_text in x for x in context['original_links']]):
     return False
   matches = re.search(r'(\d+)\s?[am|pm]', date_text)
   if matches:

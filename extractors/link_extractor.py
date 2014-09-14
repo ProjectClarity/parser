@@ -15,7 +15,7 @@ class HTTPRedirectHandler(urllib2.HTTPRedirectHandler):
         self.redirections.append(newreq.get_full_url())
     return newreq
 
-def get_last_redirect(link):
+def get_links(link):
   try:
     redirect_handler = HTTPRedirectHandler()
     redirect_handler.max_redirections = 100
@@ -23,7 +23,7 @@ def get_last_redirect(link):
     opener = urllib2.build_opener(redirect_handler)
     request = HeadRequest(link)
     opener.open(request)
-    return redirect_handler.redirections[-1]
+    return (redirect_handler.redirections[0], redirect_handler.redirections[-1])
   except:
     return None
 
@@ -32,5 +32,6 @@ class LinkExtractor(BaseExtractor):
   def extract(message, context):
    body = message.get('payload').get('body')
    matches = URL_REGEX.findall(body)
-   links = filter(lambda x: bool(x), [get_last_redirect(match[0]) for match in matches])
-   return {}, {'links': links}
+   all_links = filter(lambda x: bool(x), [get_links(match[0]) for match in matches])
+   original_links, links = zip(*all_links)
+   return {}, {'links': links, 'original_links': original_links}
