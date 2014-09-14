@@ -33,5 +33,5 @@ class LinkExtractor(BaseExtractor):
    body = message.get('payload').get('body')
    matches = URL_REGEX.findall(body)
    all_links = filter(lambda x: bool(x), [get_links(match[0]) for match in matches])
-   original_links, links = zip(*all_links)
+   original_links, links = zip(*all_links) if all_links else ([],[])
    return {}, {'links': links, 'original_links': original_links}
