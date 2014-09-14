@@ -1,11 +1,16 @@
 from base_extractor import BaseExtractor
 import parsedatetime as pdt
 from email.utils import parsedate
+import re
 
 def validate_date(date, context):
   date_text = date[-1]
   if any([date_text in x for x in context['links']]):
     return False
+  matches = re.search(r'(\d+)\s?[am|pm]', date_text)
+  if matches:
+    if matches.group(1) > 12:
+      return False
   if "\n" in date_text:
     return False
   if len(date_text) < 5 and not any([x in date_text for x in ['-', '/', 'am', 'pm']]):
