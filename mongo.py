@@ -26,4 +26,4 @@ def get_raw_email(object_id):
         raise e
 
 def store_processed_data(processed_data_dict):
-    processed_data.insert(processed_data_dict)
+    return processed_data.insert(processed_data_dict)
