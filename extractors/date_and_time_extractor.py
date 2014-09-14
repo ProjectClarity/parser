@@ -7,6 +7,10 @@ def validate_date(date, context):
   date_text = date[-1]
   if any([date_text in x for x in context['original_links']]):
     return False
+  if re.search(r'\s[A-Za-z]$', date_text):
+    return False
+  if re.search(r'\s\d{3,}$', date_text):
+    return False
   matches = re.search(r'(\d{1,2})[\.:]\d{1,2}|(\d{1,2})\s?(am|pm|AM|PM)', date_text)
   if matches:
     if (matches.group(1) and int(matches.group(1)) > 12) or (matches.group(2) and int(matches.group(2)) > 12):
@@ -15,7 +19,14 @@ def validate_date(date, context):
     return False
   if len(date_text) < 5 and not any([x in date_text.lower() for x in ['-', '/', 'am', 'pm']]):
     return False
-  return not date_text.isdigit() and not date_text.startswith('--') and any([x in date_text for x in [' ', '-', '/']])
+  if date_text.isdigit():
+    return False
+  if date_text.startswith('--'):
+    return False
+  if not any([x in date_text for x in [' ', '-', '/']]):
+    return False
+
+  return True
 
 class DateAndTimeExtractor(BaseExtractor):
     @staticmethod
