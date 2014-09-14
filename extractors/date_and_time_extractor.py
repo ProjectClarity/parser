@@ -9,11 +9,11 @@ def validate_date(date, context):
     return False
   matches = re.search(r'(\d{1,2})[\.:]\d{1,2}|(\d{1,2})\s?(am|pm|AM|PM)', date_text)
   if matches:
-    if (matches.group(1) and matches.group(1) > 12) or (matches.group(2) and matches.group(2) > 12):
+    if (matches.group(1) and int(matches.group(1)) > 12) or (matches.group(2) and int(matches.group(2)) > 12):
       return False
   if "\n" in date_text:
     return False
-  if len(date_text) < 5 and not any([x in date_text for x in ['-', '/', 'am', 'pm']]):
+  if len(date_text) < 5 and not any([x in date_text.lower() for x in ['-', '/', 'am', 'pm']]):
     return False
   return not date_text.isdigit() and not date_text.startswith('--') and any([x in date_text for x in [' ', '-', '/']])
 
