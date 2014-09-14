@@ -4,6 +4,8 @@ from email.utils import parsedate
 
 def validate_date(date):
   date_text = date[-1]
+  if "\n" in date_text:
+    return False
   if len(date_text) < 5 and not any([x in date_text for x in ['-', '/', 'am', 'pm']]):
     return False
   return not date_text.isdigit() and not date_text.startswith('--') and any([x in date_text for x in [' ', '-', '/']])
@@ -19,7 +21,8 @@ class DateAndTimeExtractor(BaseExtractor):
       start_date = parsedate(date_header)
       dates = cal.nlp(body, sourceTime=start_date)
       if dates:
-        dates = filter(lambda x: validate_date(x), dates)
+        dates = list(filter(lambda x: validate_date(x), dates))
+        dates.sort(key=lambda x: len(x[-1]))
         for date in dates:
           if date[-1][0].isdigit():
             return {'datetime': date}, {}
