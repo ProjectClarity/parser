@@ -5,7 +5,7 @@ from base_extractor import BaseExtractor
 class MITLocationExtractor(BaseExtractor):
     @staticmethod
     def extract(message, context):
-       result = {'latitude': None, 'longitude': None, 'mit_location': False}
+       result = {}
        location = message.get('location')
        if location is not None:
            data = requests.get('http://whereis.mit.edu/search?type=query&q=' + location).json()
