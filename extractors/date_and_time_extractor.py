@@ -7,9 +7,9 @@ def validate_date(date, context):
   date_text = date[-1]
   if any([date_text in x for x in context['original_links']]):
     return False
-  matches = re.search(r'(\d+)\s?[am|pm]', date_text)
+  matches = re.search(r'(\d{1,2})[\.:]\d{1,2}|(\d{1,2})\s?(am|pm|AM|PM)', date_text)
   if matches:
-    if matches.group(1) > 12:
+    if (matches.group(1) and matches.group(1) > 12) or (matches.group(2) and matches.group(2) > 12):
       return False
   if "\n" in date_text:
     return False
