@@ -6,7 +6,7 @@ class MITLocationRefiner(BaseRefiner):
     @staticmethod
     def refine(results, context):
        result = {}
-       location = results['location']
+       location = results.get('location')
        if location is not None:
            data = requests.get('http://whereis.mit.edu/search?type=query&q=' + location).json()
            if len(data) > 0: # Note: never seems to return more than one result, should be ok to blindly use 0th element if it exists.
