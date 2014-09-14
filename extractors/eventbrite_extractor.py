@@ -24,7 +24,5 @@ class EventbriteExtractor(BaseExtractor):
           end = soup.find('span', class_='dtend')
           timezone = message.get_header('X-Time-Zone')
           location = maybe_content(soup.find('meta', property='og:street-address'))
-          latitude = maybe_content(soup.find('meta', property='og:latitude'))
-          longitude = maybe_content(soup.find('meta', property='og:longitude'))
-          return {'eventbrite_url': link, 'url': link, 'datetime': [naive_datetime_from_span(start, timezone)], 'end': [naive_datetime_from_span(end, timezone)], 'location': location, 'latitude': latitude, 'longitude': longitude}, {}
+          return {'eventbrite_url': link, 'url': link, 'datetime': [naive_datetime_from_span(start, timezone)], 'end': [naive_datetime_from_span(end, timezone)], 'location': location}, {}
       return {}, {}
