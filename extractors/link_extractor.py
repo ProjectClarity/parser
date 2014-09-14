@@ -32,6 +32,5 @@ class LinkExtractor(BaseExtractor):
        matches = url_pattern.findall(body)
        if len(matches) == 0:
            return {}, {'links':[]}
-       links = [match[0] for match in matches]
-       links = [follow(link) for link in links]
+       links = [follow(match[0]) for match in matches]
        return {}, {'links': links}
