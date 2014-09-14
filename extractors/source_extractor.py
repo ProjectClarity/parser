@@ -9,7 +9,7 @@ class SourceExtractor(BaseExtractor):
       if from_email.split('@')[-1].lower() in ['facebookmail.com', 'twitter.com', 'meetup.com']:
         SourceExtractor.throw()
       if from_name:
-        return {'source': from_name}, {}
+        return {'source': from_name, 'email': from_email}, {}
       else:
         return {}, {}
 
