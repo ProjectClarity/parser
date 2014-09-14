@@ -11,6 +11,7 @@ def get_events_from_email(raw_email):
     context = {} # Intermediate results
     results['email_id'] = raw_email['id']
     results['user_id'] = raw_email['userid']
+    results['original_body'] = raw_email.get('payload').get('body')
     for extractor in extractors: # Get information out of the message
         new_results, new_context = extractor.extract(message, context)
         results.update(new_results)
