@@ -43,9 +43,13 @@ class AddressAPIAccount():
     query_string = {"auth-id": self.account['key_id'], "auth-token": self.account['token']}
     result = requests.post(os.getenv('ADDRESS_EXTRACTION_API'), params=query_string, data=s.encode("utf8")).json()
     try:
+      line = result['line']
+      surrounding = s.split("\n")[max(line-2, 0):line+2]
+      if any([x in surrounding.lower() for x in ['unsubscribe', 'receive these emails']]):
+        return None
       api_output = result['addresses'][0]['api_output'][0]
       return api_output['delivery_line_1'] + "\n" + api_output['last_line']
-    except IndexError:
+    except (IndexError, KeyError, ValueError):
       return None
 
 class AddresssExtractor(BaseExtractor):
