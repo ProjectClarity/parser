@@ -13,6 +13,17 @@ class CustomHTTPRedirectHandler(urllib2.HTTPRedirectHandler):
             self.redirections.append(newreq.get_full_url())
         return newreq
 
+def follow(link):           
+    if any(regex.search(link) for regex in whitelist):
+        redirect_handler = CustomHTTPRedirectHandler()
+        redirect_handler.max_redirections = 100
+        redirect_handler.redirections = [link]
+        opener = urllib2.build_opener(redirect_handler)
+        request = urllib2.Request(link)
+        request.get_method = lambda : 'HEAD'
+        response = opener.open(request)
+        return redirect_handler.redirections[-1]
+
 class LinkExtractor(BaseExtractor):
     @staticmethod
     def extract(message):
@@ -22,13 +33,5 @@ class LinkExtractor(BaseExtractor):
        if len(matches) == 0:
            return {}, {'links':[]}
        links = [match[0] for match in matches]
-       for link in links:
-           if any(regex.search(link) for regex in whitelist):
-               redirect_handler = CustomHTTPRedirectHandler()
-               redirect_handler.max_redirections = 100
-               redirect_handler.redirections = [link]
-               opener = urllib2.build_opener(redirect_handler)
-               request = urllib2.Request(link)
-               request.get_method = lambda : 'HEAD'
-               response = opener.open(request)
+       links = [follow(link) for link in links]
        return {}, {'links': links}
