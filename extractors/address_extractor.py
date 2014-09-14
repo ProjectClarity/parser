@@ -39,13 +39,14 @@ class AddressAPIAccount():
     return account
 
   def parse_address(self, s):
-    misc.update({'type': 'address_api_account'}, {'$inc': {'remaining', -1}})
+    misc.update({'type': 'address_api_account'}, {'$inc': {'remaining': -1}})
     query_string = {"auth-id": self.account['key_id'],"auth-token": self.account['token']}
-    result = requests.post( params=query_string, data=s).json()
-    if len(result['addresses']) == 0:
+    result = requests.post(os.getenv('ADDRESS_EXTRACTION_API'), params=query_string, data=s).json()
+    try:
+      api_output = result['addresses'][0]['api_output'][0]
+      return api_output['delivery_line_1'] + "\n" + api_output['last_line']
+    except IndexError:
       return None
-    api_output = result['addresses'][0]['api_output']
-    return api_output['delivery_line_1'] + "\n" + api_output['last_line']
 
 class AddresssExtractor(BaseExtractor):
     @staticmethod
