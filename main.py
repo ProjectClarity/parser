@@ -10,5 +10,5 @@ if __name__ == '__main__':
         newest_notifications = get_notifications(MAX_NOTIFICATION_BATCH_SIZE)
         process_notifications(newest_notifications, process_notification)
         print 'Processed {} events'.format(len(newest_notifications))
-        time.sleep(20)
+        time.sleep(10)
 
