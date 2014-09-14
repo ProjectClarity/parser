@@ -48,7 +48,7 @@ class AddressAPIAccount():
       if any([x in surrounding.lower() for x in ['unsubscribe', 'receive these emails']]):
         return None
       api_output = result['addresses'][0]['api_output'][0]
-      return api_output['delivery_line_1'] + "\n" + api_output['last_line']
+      return api_output.get('delivery_line_1','') + " " + api_output.get('last_line','')
     except (IndexError, KeyError, ValueError):
       return None
 
