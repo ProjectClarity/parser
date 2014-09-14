@@ -32,7 +32,6 @@ def process_notification(notification):
                 post_events(event_ids)
             except (urllib2.HTTPError, urllib2.URLError) as e:
                 print 'Error POSTing: {}'.format(e)
-        print 'Processed {} events'.format(len(events))
     except (DuplicateException, NotAnEventException, NoSuchEmailException):
         pass
     except:
