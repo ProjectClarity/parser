@@ -5,6 +5,9 @@ class Message(object):
   def get(self, k, v=None):
     return self.d.get(k, v)
 
+  def __getitem__(self, key):
+    return self.get(key)
+
   def get_header(self, name):
     for header in self.d['payload']['headers']:
       if header['name'] == name:
