@@ -5,7 +5,7 @@ from base_extractor import BaseExtractor
 EVENTBRITE_EVENT_REGEX = r'https?://(www\.)?eventbrite\.com\/e\/(?:[\w-]+)(\d+)'
 
 def naive_datetime_from_span(dt_span, timezone):
-    return arrow.get(dt_span.find('span')['title']).to(timezone).datetime.replace(tzinfo=None)
+    return arrow.get(dt_span.find('span', class_='value-title')['title']).to(timezone).datetime.replace(tzinfo=None)
 
 def maybe_content(element):
     if element is None:
