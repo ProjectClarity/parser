@@ -11,9 +11,9 @@ def validate_date(date, body, context):
     return False
   if re.search(r'\s\d{3,}$', date_text):
     return False
-  if re.search(r'\d{3,}\s?(am|pm|Am|Pm|AM|PM)$', date_text):
+  if re.search(r'\d{3,}\s?(am|pm)$', date_text, re.IGNORECASE):
     return False
-  matches = re.search(r'(\d{1,2})[\.:]\d{1,2}|(\d{1,2})\s?(am|pm|Am|Pm|AM|PM)', date_text)
+  matches = re.search(r'(\d{1,2})[\.:]\d{1,2}|(\d{1,2})\s?(am|pm)', date_text, re.IGNORECASE)
   if matches:
     if (matches.group(1) and int(matches.group(1)) > 12) or (matches.group(2) and int(matches.group(2)) > 12):
       return False
@@ -27,7 +27,7 @@ def validate_date(date, body, context):
     return False
   if not any([x in date_text for x in [' ', '-', '/']]):
     return False
-  if any([x in body[end_pos+1:end_pos+5] for x in ['am', 'pm']]):
+  if any([x in body[end_pos+1:end_pos+5].lower() for x in ['am', 'pm']]):
     return False
 
   return True
