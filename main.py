@@ -11,4 +11,3 @@ if __name__ == '__main__':
         process_notifications(newest_notifications, process_notification)
         print 'Processed {} events'.format(len(newest_notifications))
         time.sleep(10)
-
