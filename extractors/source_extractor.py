@@ -8,7 +8,7 @@ class SourceExtractor(BaseExtractor):
       from_name, from_email = email.utils.parseaddr(_from)
       if from_email in ['info@twitter.com', 'calendar-notification@google.com']:
         SourceExtractor.throw()
-      if any(x in from_email.split('@')[0].replace('-','') for x in ['noreply']):
+      if any(x in from_email.split('@')[0].replace('-','') for x in ['noreply', 'daily']):
         SourceExtractor.throw()
       if from_email.split('@')[-1] in ['facebookmail.com', 'mail.cnn.com']:
         SourceExtractor.throw()
