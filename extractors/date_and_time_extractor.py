@@ -3,8 +3,8 @@ import parsedatetime as pdt
 from email.utils import parsedate
 import re
 
-def validate_date(date, context):
-  date_text = date[-1]
+def validate_date(date, body, context):
+  parsed_datetime, flags, start_pos, end_pos, date_text = date
   if any([date_text in x for x in context['original_links']]):
     return False
   if re.search(r'\s[A-Za-z]$', date_text):
@@ -27,6 +27,8 @@ def validate_date(date, context):
     return False
   if not any([x in date_text for x in [' ', '-', '/']]):
     return False
+  if any([x in body[end_pos+1:end_pos+5] for x in ['am', 'pm']]):
+    return False
 
   return True
 
@@ -41,8 +43,8 @@ class DateAndTimeExtractor(BaseExtractor):
       start_date = parsedate(date_header)
       dates = cal.nlp(body, sourceTime=start_date)
       if dates:
-        dates = list(filter(lambda x: validate_date(x, context), dates))
-        dates.sort(key=lambda x: len(x[-1]))
+        dates = list(filter(lambda x: validate_date(x, body, context), dates))
+        # dates.sort(key=lambda x: len(x[-1]))
         for date in dates:
           if date[-1][0].isdigit():
             return {'datetime': date}, {}
