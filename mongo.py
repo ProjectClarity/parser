@@ -22,7 +22,7 @@ def get_raw_email(object_id):
     raw_email = raw_data.find_one({'_id': ObjectId(object_id)})
     if not raw_email:
         raise NoSuchEmailException
-    if processed_data.find_one({'email_id':raw_email['id']}):
+    if processed_data.find_one({'email_id': raw_email['id']}):
         raise DuplicateException
     del raw_email['_id']
     try:
