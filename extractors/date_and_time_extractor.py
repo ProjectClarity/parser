@@ -41,7 +41,10 @@ class DateAndTimeExtractor(BaseExtractor):
       if not date_header:
         DateAndTimeExtractor.throw()
       start_date = parsedate(date_header)
-      dates = cal.nlp(body, sourceTime=start_date)
+      try:
+        dates = cal.nlp(body, sourceTime=start_date)
+      except:
+        DateAndTimeExtractor.throw()
       if dates:
         dates = list(filter(lambda x: validate_date(x, body, context), dates))
         # dates.sort(key=lambda x: len(x[-1]))
