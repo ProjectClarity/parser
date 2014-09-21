@@ -41,8 +41,8 @@ class AddressAPIAccount():
   def parse_address(self, s):
     misc.update({'type': 'address_api_account'}, {'$inc': {'remaining': -1}})
     query_string = {"auth-id": self.account['key_id'], "auth-token": self.account['token']}
-    result = requests.post(os.getenv('ADDRESS_EXTRACTION_API'), params=query_string, data=s.encode("utf8")).json()
     try:
+      result = requests.post(os.getenv('ADDRESS_EXTRACTION_API'), params=query_string, data=s.encode("utf8")).json()
       line = result['addresses'][0]['line']
       surrounding = ' '.join(s.split("\n")[max(line-2, 0):line+2])
       if any([x in surrounding.lower() for x in ['unsubscribe', 'receive these emails']]):
