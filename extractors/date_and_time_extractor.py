@@ -142,7 +142,7 @@ class DateAndTimeExtractor(BaseExtractor):
       response = api.make_api_call()
       time_exps = response['time_expression_list']
       try:
-        return get_date_from_forms(time_exps)
+        return {'datetime': get_date_from_forms(time_exps)}, {}
       except:
         DateAndTimeExtractor.throw()
 
