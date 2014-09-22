@@ -105,6 +105,15 @@ def get_date_from_forms(forms):
       if not date_components:
         DateAndTimeExtractor.throw()
 
+def get_event_from_concepts(concepts):
+  for concept in concepts:
+    try:
+      if concept['sementity']['id'] == 'ODENTITY_EVENT':
+        return concept
+    except:
+      continue
+  return None
+
 class DateAndTimeAPIAccount():
   def __init__(self, body, timeref, mime_type):
     timeref = datetime.datetime.fromtimestamp(time.mktime(timeref))
@@ -123,7 +132,7 @@ class DateAndTimeAPIAccount():
       'lang': 'en',
       'txt': self.body,
       'txtf': 'plain' if self.mime_type is 'text/plain' else 'markup',
-      'tt': 'tmupr',
+      'tt': 'tcmupr',
       'timeref': self.timeref,
       'dic': 'chetsdpCSA'
     }
@@ -140,6 +149,9 @@ class DateAndTimeExtractor(BaseExtractor):
       timeref = parsedate(date_header)
       api = DateAndTimeAPIAccount(body, timeref, mime_type)
       response = api.make_api_call()
+      concepts = response.get('concept_list')
+      if not concepts or not get_event_from_concepts(concepts):
+        DateAndTimeExtractor.throw()
       time_exps = response.get('time_expression_list')
       if not time_exps:
         DateAndTimeExtractor.throw()
