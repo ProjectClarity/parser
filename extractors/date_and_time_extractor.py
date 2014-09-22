@@ -140,7 +140,9 @@ class DateAndTimeExtractor(BaseExtractor):
       timeref = parsedate(date_header)
       api = DateAndTimeAPIAccount(body, timeref, mime_type)
       response = api.make_api_call()
-      time_exps = response['time_expression_list']
+      time_exps = response.get('time_expression_list')
+      if not time_exps:
+        DateAndTimeExtractor.throw()
       try:
         return {'datetime': get_date_from_forms(time_exps)}, {}
       except:
