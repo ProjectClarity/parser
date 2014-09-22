@@ -1,7 +1,7 @@
 from base_extractor import BaseExtractor
 import parsedatetime as pdt
 from email.utils import parsedate
-import re, os, requests, dateutil.parser, time, datetime
+import re, os, requests, dateutil.parser, time, datetime, calendar
 
 def validate_date(date, body, context):
   parsed_datetime, flags, start_pos, end_pos, date_text = date
@@ -127,7 +127,7 @@ class DateAndTimeAPIAccount():
       'timeref': self.timeref,
       'dic': 'chetsdpCSA'
     }
-    return requests.post(os.getenv('TOPIC_EXTRACTION_API'), params=params).json()
+    return requests.post(os.getenv('TOPIC_EXTRACTION_API'), data=params).json()
 
 class DateAndTimeExtractor(BaseExtractor):
     @staticmethod
@@ -144,7 +144,10 @@ class DateAndTimeExtractor(BaseExtractor):
       if not time_exps:
         DateAndTimeExtractor.throw()
       try:
-        return {'datetime': get_date_from_forms(time_exps)}, {}
+        dt = get_date_from_forms(time_exps)
+        if calendar.timegm(dt.utctimetuple()) < time.time():
+          DateAndTimeExtractor.throw()
+        return {'datetime': dt}, {}
       except:
         DateAndTimeExtractor.throw()
 
