@@ -1,7 +1,7 @@
 from base_extractor import BaseExtractor
 import parsedatetime as pdt
 from email.utils import parsedate
-import re, os, requests, dateutil.parser
+import re, os, requests, dateutil.parser, time, datetime
 
 def validate_date(date, body, context):
   parsed_datetime, flags, start_pos, end_pos, date_text = date
@@ -107,6 +107,7 @@ def get_date_from_forms(forms):
 
 class DateAndTimeAPIAccount():
   def __init__(self, body, timeref, mime_type):
+    timeref = datetime.datetime.fromtimestamp(time.mktime(timeref))
     offset_str = timeref.strftime('%z')
     if offset_str:
       offset_str = offset_str[:-2] + ':' + offset_str[-2:]
