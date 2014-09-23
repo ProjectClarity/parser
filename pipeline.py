@@ -26,7 +26,7 @@ def post_events(event_ids):
     payload = {'event_ids': event_ids}
     req = urllib2.Request('{}/events/create'.format(os.getenv('API_URL')))
     req.add_header('Content-Type', 'application/json')
-    urllib2.urlopen(req, json.dumps(payload))
+    return urllib2.urlopen(req, json.dumps(payload))
 
 def process_notification(notification):
     object_id = notification['object_id']
@@ -35,9 +35,12 @@ def process_notification(notification):
             events = get_events_from_email(raw_email)
             event_ids = [str(store_processed_data(event)) for event in events]
             try:
-                post_events(event_ids)
+                resp = json.loads(post_events(event_ids).read())
+                print 'Created Events: ' + ', '.join(resp['ids'])
             except (urllib2.HTTPError, urllib2.URLError) as e:
                 print 'Error POSTing: {}'.format(e)
+            except e:
+                print 'Unknown Exception: {}'.format(e)
     except (DuplicateException, NotAnEventException, NoSuchEmailException):
         pass
     except:
