@@ -20,6 +20,7 @@ def get_events_from_email(raw_email):
         new_results, new_context = refiner.refine(results, context)
         results.update(new_results)
         context.update(new_context)
+    # TODO: Add filters, one being duplicate events
     return [results]
 
 def post_events(event_ids):
